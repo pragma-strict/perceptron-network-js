@@ -7,11 +7,12 @@ let canvas;
 let trainingData;
 let trainingLabels;
 let trainingDataCount = 50;
-let inputs = [0.2, 0.4, 1, 0.6, 0.3, -3.2, -0.9, 1.4];
+let inputs = [0.2, 0.4, 1, 0.6, 0.3, -3.2, -0.9, 1.4];  // This will probably be replaced by the training data
 let perceptron;
 
 
 
+// Initialization
 function setup() {
   let parentStyle = window.getComputedStyle(document.getElementById(ID_PARENT));
   canvas = createCanvas(parseInt(parentStyle.width), parseInt(parentStyle.height));
@@ -25,6 +26,7 @@ function setup() {
 
 
 
+// Adjust canvas dimensions
 function windowResized() {
   let parentStyle = window.getComputedStyle(document.getElementById(ID_PARENT));
 	resizeCanvas(parseInt(parentStyle.width), parseInt(parentStyle.height));
@@ -50,6 +52,7 @@ function generateTrainingData(numberOfPoints){
 
 
 
+// Render the training data to the canvas
 function drawTrainingData(){
   strokeWeight(8);
   for(let i = 0; i < trainingData.length; i++){
@@ -61,10 +64,4 @@ function drawTrainingData(){
     }
     point(trainingData[i].x, trainingData[i].y);
   }
-}
-
-
-
-function draw(){
-
 }
