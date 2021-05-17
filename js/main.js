@@ -7,7 +7,6 @@ let canvas;
 let trainingData;
 let trainingLabels;
 let trainingDataCount = 50;
-let inputs = [0.2, 0.4, 1, 0.6, 0.3, -3.2, -0.9, 1.4];  // This will probably be replaced by the training data
 let perceptron;
 
 
@@ -17,11 +16,11 @@ function setup() {
   let parentStyle = window.getComputedStyle(document.getElementById(ID_PARENT));
   canvas = createCanvas(parseInt(parentStyle.width), parseInt(parentStyle.height));
   canvas.parent(ID_PARENT);
-  perceptron = new Perceptron(inputs);
+  perceptron = new Perceptron(trainingDataCount, 0.001);
   trainingData = new Array();
   trainingLabels = new Array();
   generateTrainingData(trainingDataCount);
-  drawTrainingData();
+  drawOutput();
 }
 
 
@@ -52,6 +51,32 @@ function generateTrainingData(numberOfPoints){
 
 
 
+function step(){
+  background(BG_COL);
+  for(let i = 0; i < trainingData.length; i++){
+    perceptron.gradientDescent([trainingData[i].x, trainingData[i].y], trainingLabels[i]);
+  }  
+  drawOutput();
+}
+
+
+
+function drawOutput(){
+  strokeWeight(8);
+  for(let i = 0; i < trainingData.length; i++){
+    let output = perceptron.feedForward([trainingData[i].x, trainingData[i].y]);
+    if(output == trainingLabels[i]){
+      stroke(GREEN);
+    }
+    else{
+      stroke(RED);
+    }
+    point(trainingData[i].x, trainingData[i].y);
+  }
+}
+
+
+
 // Render the training data to the canvas
 function drawTrainingData(){
   strokeWeight(8);
@@ -63,5 +88,19 @@ function drawTrainingData(){
       stroke(GREEN);
     }
     point(trainingData[i].x, trainingData[i].y);
+  }
+}
+
+
+
+function mousePressed(){
+  step();
+}
+
+
+
+function keyPressed(){
+  if(key == ' '){
+    step();
   }
 }

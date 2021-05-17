@@ -4,13 +4,26 @@
 
 
 class Perceptron{
-   constructor(layerSize){
+   constructor(layerSize, gradientDescentRate){
       // Each perceptron weighs its inputs uniquely so each needs to store its own weights vector
       this.weights = new Array(layerSize);
+
+      // The rate at which the gradient is traversed (lower values should be more accurate but take longer)
+      this.gradientDescentRate = gradientDescentRate;
 
       // Randomly initialize the weights
       for(let i = 0; i < this.weights.length; i++){
          this.weights[i] = random(-1, 1);
+      }
+   }
+
+
+   // Tweaks the weights to "train" the perceptron
+   gradientDescent(inputs, target){
+      let guess = this.feedForward(inputs);
+      let error = target - guess;
+      for(let i = 0; i < this.weights.length; i++){
+         this.weights[i] += this.gradientDescentRate * error * inputs[i]; // Not sure why multiplying by input here
       }
    }
 
